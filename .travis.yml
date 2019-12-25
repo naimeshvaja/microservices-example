@@ -1,0 +1,18 @@
+sudo: required
+services:
+  - docker
+before_install:
+  - docker build -t 4111997/microservice-test ./test
+script:
+  - docker run 4111997/microservice-test npm test 
+after_success:
+  - docker build -t 4111997/microservice-books ./books
+  - docker build -t 4111997/microservice-search ./search
+  - docker build -t 4111997/microservice-videos ./videos
+  - docker build -t 4111997/microservice-web ./web
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push 4111997/microservice-books
+  - docker push 4111997/microservice-search
+  - docker push 4111997/microservice-videos
+  - docker push 4111997/microservice-web
+  - docker push 4111997/microservice-test

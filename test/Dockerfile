@@ -1,12 +1,10 @@
 FROM node:latest
 
-WORKDIR "/app" 
+COPY . .
 
-COPY package.json .
+WORKDIR "/app"
 
 RUN npm install --production
-
-COPY . .
 
 EXPOSE 3000
 
